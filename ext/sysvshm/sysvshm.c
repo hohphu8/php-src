@@ -341,6 +341,10 @@ PHP_FUNCTION(shm_get_var)
 		zval_ptr_dtor(return_value);
 		RETURN_FALSE;
 	}
+
+	if (Z_ISREF_P(return_value)) {
+		zend_unwrap_reference(return_value);
+	}
 }
 /* }}} */
 

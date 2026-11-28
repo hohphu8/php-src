@@ -128,9 +128,17 @@ U_CFUNC int intl_datetime_decompose(zval *z, double *millis, TimeZone **tz,
 			return FAILURE;
 		}
 
-		datetime = Z_PHPDATE_P(z);
-		*millis = U_MILLIS_PER_SECOND * (double)Z_LVAL(retval) + (datetime->time->us / 1000);
 		zval_ptr_dtor(&zfuncname);
+		datetime = Z_PHPDATE_P(z);
+		if (!datetime->time) {
+			spprintf(&message, 0, "%s: the %s object is not properly "
+					"initialized", func, ZSTR_VAL(Z_OBJCE_P(z)->name));
+			intl_errors_set(err, U_ILLEGAL_ARGUMENT_ERROR,
+				message, 1);
+			efree(message);
+			return FAILURE;
+		}
+		*millis = U_MILLIS_PER_SECOND * (double)Z_LVAL(retval) + (datetime->time->us / 1000);
 	}
 
 	if (tz) {

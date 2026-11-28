@@ -293,6 +293,8 @@ PHP                                                                        NEWS
     stream_filter_remove() on a read filter). (David Carlier)
   . Fixed stream_context_create() and stream_context_set_params() rejecting
     an options array passed by reference in the context parameters. (lacatoire)
+  . Fixed bug GH-25862 (Heap buffer overflow in _php_stream_fill_read_buffer()
+    when a read filter increases the stream chunk size). (matyapiro31, lazerg)
 
 - XSL:
   . Fixed a crash in XSLTProcessor::transformToDoc() when the return class
